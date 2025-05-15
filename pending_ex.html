@@ -1,0 +1,146 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8" /> <meta name="viewport" content="width=device-width, initial-scale=1.0"/> <title>Admin Panel - Student Documents</title> <style> :root { --primary-color: #005b96; --accent-color: #0099cc; --card-bg: #ffffff; --input-bg: #f9f9fb; --btn-bg: #e53935; --btn-hover: #c62828; --text-color: #222; --muted-text: #666; --bg-color: #f2f4f8; --border-radius: 10px; }
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-color);
+  min-height: 100vh;
+  color: var(--text-color);
+}
+
+/* Top Bar */
+.topbar {
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 16px 30px;
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.main-content {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.main-content h2 {
+  font-size: 24px;
+  color: var(--primary-color);
+  margin-bottom: 25px;
+}
+
+.search-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 25px;
+}
+
+#searchInput {
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius);
+  width: 100%;
+  max-width: 400px;
+  background-color: var(--input-bg);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: border 0.3s;
+}
+
+#searchInput:focus {
+  border-color: var(--accent-color);
+  outline: none;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease-in-out;
+  border-left: 6px solid var(--primary-color);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.student-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  color: var(--text-color);
+}
+
+.btn {
+  background-color: var(--btn-bg);
+  color: white;
+  padding: 10px 16px;
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+}
+
+.btn:hover {
+  background-color: var(--btn-hover);
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 0 15px;
+  }
+
+  .card-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+</style> </head> <body> <div class="topbar">Admin Panel – Student Pending Exams</div> <div class="main-content"> <h2>Student Pending Exams</h2>
+  <div class="search-container">
+  <input type="text" id="searchInput" placeholder="Search student name..." onkeyup="filterCards()">
+</div>
+
+<div class="card-container" id="studentCards">
+  <div class="card">
+    <div class="student-name">Debargha Saha</div>
+    <a class="btn" href="Debargha.html">Pending Exams</a>
+  </div>
+  <div class="card">
+    <div class="student-name">Rohan Banik</div>
+    <a class="btn" href="Rohan.html">Pending Exams</a>
+  </div>
+  <div class="card">
+    <div class="student-name">Sandipto Das</div>
+    <a class="btn" href="Sandipto.html">Pending Exams</a>
+  </div>
+  <div class="card">
+    <div class="student-name">Soutik Mandal</div>
+    <a class="btn" href="Soutik.html">Pending Exams</a>
+  </div>
+  <div class="card">
+    <div class="student-name">Biswajit Giri</div>
+    <a class="btn" href="Biswajit.html">Pending Exams</a>
+  </div>
+  <!-- Add more student cards here -->
+</div>
+
+</div> <script> function filterCards() { const input = document.getElementById("searchInput").value.toUpperCase(); const cards = document.getElementById("studentCards").getElementsByClassName("card"); for (let card of cards) { const name = card.querySelector(".student-name").textContent.toUpperCase(); card.style.display = name.includes(input) ? "block" : "none"; } } </script> </body> </html>

@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Permission</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Add face detection libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 220px;
+            background-color: #2b3e50;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #fff;
+        }
+
+        .sidebar img {
+            width: 80px;
+            margin-bottom: 20px;
+            border-radius: 50%;
+        }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background-color: #1d2a36;
+        }
+
+        .sidebar img.icon {
+            width: 25px;
+            margin-right: 15px;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1976d2;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header .date,
+        .header .user-info {
+            font-size: 14px;
+        }
+
+        .header .sign-out {
+            background-color: #04549e;
+            border: none;
+            color: #f8e6ec;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .header .sign-out:hover {
+            background-color: #02386a;
+        }
+
+        .courses {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .course-card {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 300px;
+            width: 100%;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .course-card h3 {
+            font-size: 18px;
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+
+        .course-card p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .cgpa-display {
+            font-size: 16px;
+            color: #0000ff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .cgpa-display span {
+            color: red;
+        }
+
+        .camera-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        video,
+        canvas {
+            border: 2px solid #333;
+            border-radius: 8px;
+            margin: 10px 0;
+            max-width: 100%;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            color: #777;
+            cursor: not-allowed;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #captured-image {
+            display: none;
+        }
+
+        .instruction {
+            background-color: #fff8dc;
+            border: 1px solid #ffe4b5;
+            border-radius: 8px;
+            padding: 15px 20px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            color: #333;
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .instruction h3 {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .instruction ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+
+        .instruction li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .instruction a {
+            color: #1976d2;
+            text-decoration: none;
+        }
+
+        .instruction a:hover {
+            text-decoration: underline;
+        }
+
+        #face-warning {
+            display: none;
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .face-detection-canvas {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
+            border: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <!-- <div class="sidebar">
+        <img src="DALL·E-2024-11-11-19.20.jpeg" alt="LOGO">
+        <a href="Dashboard.html"><img src="My exams.jpeg" alt="My Exams" class="icon"> My Exams</a>
+        <a href="com_pending.html"><img src="completed and pending.jpeg" alt="Completed and Pending" class="icon">
+            Completed & Pending Exams</a>
+        <a href="calendar.html"><img src="calender.jpeg" alt="Academic Calendar" class="icon"> Academic Calendar</a>
+        <a href="admit_marksheet.html"><img src="admit.jpeg" alt="Admit and Marksheet" class="icon"> Admit Card &
+            Marksheet</a>
+        <a href="submit_doc.html"><img src="submitted docu.jpeg" alt="Submitted Documents" class="icon"> Submitted
+            Documents</a>
+        <a href="issues.html"><img src="issues.jpeg" alt="Issues and Query" class="icon"> Issues and Query</a>
+    </div> -->
+    <div class="main-content">
+        <!-- <div class="header">
+            <div class="date">
+                <div>05 November, 2024</div>
+                <div>SEPTEMBER 2024 TERM</div>
+            </div>
+            <div class="user-info">
+                <div>Soutik Mandal</div>
+            </div>
+            <button class="sign-out" onclick="signOut()">SIGN OUT</button>
+        </div> -->
+        <div class="camera-container">
+            <div class="instruction">
+                <h3>Please allow required permissions to continue</h3>
+                <ul>
+                    <li>When prompted, you need to click <strong>Allow</strong> to use the application with your webcam.
+                    </li>
+                    <li>If you don't see the dialog, try opening the application in a new incognito window, or review
+                        your webcam settings on your browser.</li>
+                    <li>We recommend using the latest version of <strong>Google Chrome</strong> for a hassle-free
+                        experience.</li>
+                </ul>
+            </div>
+            
+            <!-- Face detection warning message -->
+            <div id="face-warning"></div>
+            
+            <!-- Video element for webcam -->
+            <video id="video" autoplay playsinline></video>
+            
+            <!-- Canvas for face detection overlay (added dynamically) -->
+            
+            <div class="button-container">
+                <button id="capture-btn" disabled>Capture</button>
+                <button id="recapture-btn" style="display: none;">Recapture</button>
+            </div>
+            <canvas id="canvas" style="display: none;"></canvas>
+        </div>
+        <div class="file-input-container">
+            <div style="margin-left: 480px; margin-top: 20px;">
+                <label for="file-input" style="margin-left: 55px; display: none;">Captured Image File:</label>
+                <input type="file" id="file-input" style="margin-top: 20px; display: none;" hidden />
+            </div>
+        </div>
+        
+        <div class="condition">
+            <div style="margin-left: 400px; margin-top: 20px;">
+                <label>
+                    <input type="checkbox" id="consent-checkbox" style="max-width: 14px">
+                    I give consent to take camera access of my device.
+                </label>
+            </div>
+            <button id="next-btn" style="margin-top: 10px; margin-left: 582px;" disabled>Next</button>
+        </div>
+    </div>
+    <script>
+        // DOM elements
+        const consentCheckbox = document.getElementById('consent-checkbox');
+        const nextButton = document.getElementById('next-btn');
+        const captureBtn = document.getElementById('capture-btn');
+        const recaptureBtn = document.getElementById('recapture-btn');
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const fileInput = document.getElementById('file-input');
+        const warningMessage = document.getElementById('face-warning');
+        let hasCaptured = false;
+        let faceDetectionInterval;
+
+        // Load face detection models
+        async function loadModels() {
+            try {
+                await faceapi.nets.tinyFaceDetector.loadFromUri('https://justadudewhohacks.github.io/face-api.js/models');
+                await faceapi.nets.faceLandmark68Net.loadFromUri('https://justadudewhohacks.github.io/face-api.js/models');
+                console.log('Face detection models loaded');
+            } catch (error) {
+                console.error('Error loading face detection models:', error);
+                warningMessage.textContent = "Face detection failed to load. Please refresh the page.";
+                warningMessage.style.display = 'block';
+            }
+        }
+
+        // Detect faces in video stream
+        async function detectFaces() {
+            if (!video.srcObject) return;
+            
+            try {
+                const detections = await faceapi.detectAllFaces(video, 
+                    new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks();
+                
+                // Clear previous detections canvas
+                const existingCanvas = document.querySelector('.face-detection-canvas');
+                if (existingCanvas) existingCanvas.remove();
+                
+                // Create new canvas for face detection overlay
+                const detectionCanvas = faceapi.createCanvasFromMedia(video);
+                detectionCanvas.classList.add('face-detection-canvas');
+                video.parentNode.insertBefore(detectionCanvas, video.nextSibling);
+                
+                // Resize detections to video size
+                const displaySize = { width: video.videoWidth, height: video.videoHeight };
+                faceapi.matchDimensions(detectionCanvas, displaySize);
+                const resizedDetections = faceapi.resizeResults(detections, displaySize);
+                
+                // Draw detections
+                faceapi.draw.drawDetections(detectionCanvas, resizedDetections);
+                faceapi.draw.drawFaceLandmarks(detectionCanvas, resizedDetections);
+                
+                // Update UI based on face count
+                updateCaptureButton(detections.length);
+            } catch (error) {
+                console.error('Face detection error:', error);
+            }
+        }
+
+        // Update capture button based on face count
+        function updateCaptureButton(faceCount) {
+            if (faceCount === 0) {
+                warningMessage.textContent = "No faces detected. Please position yourself in front of the camera.";
+                warningMessage.style.display = 'block';
+                captureBtn.disabled = true;
+            } else if (faceCount > 1) {
+                warningMessage.textContent = "Multiple people detected. Only one person should be in frame.";
+                warningMessage.style.display = 'block';
+                captureBtn.disabled = true;
+            } else {
+                warningMessage.style.display = 'none';
+                captureBtn.disabled = !consentCheckbox.checked;
+            }
+        }
+
+        // Convert data URL to blob
+        function dataURLToBlob(dataURL) {
+            const byteString = atob(dataURL.split(',')[1]);
+            const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
+            const arrayBuffer = new ArrayBuffer(byteString.length);
+            const uint8Array = new Uint8Array(arrayBuffer);
+            for (let i = 0; i < byteString.length; i++) {
+                uint8Array[i] = byteString.charCodeAt(i);
+            }
+            return new Blob([arrayBuffer], { type: mimeString });
+        }
+
+        // Toggle next button state
+        function toggleNextButton() {
+            nextButton.disabled = !(consentCheckbox.checked && hasCaptured);
+            if (!captureBtn.disabled) {
+                captureBtn.disabled = !consentCheckbox.checked;
+            }
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Load face detection models
+            await loadModels();
+            
+            // Start camera stream
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                video.srcObject = stream;
+                
+                // Start face detection when video starts playing
+                video.onplaying = () => {
+                    // Run face detection every 500ms
+                    faceDetectionInterval = setInterval(detectFaces, 500);
+                };
+            } catch (error) {
+                console.error('Error accessing the camera:', error);
+                warningMessage.textContent = "Could not access camera. Please check permissions and try again.";
+                warningMessage.style.display = 'block';
+            }
+
+            // Capture button event
+            captureBtn.addEventListener('click', () => {
+                const context = canvas.getContext('2d');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                const imageData = canvas.toDataURL('image/png');
+                localStorage.setItem('captured-image', imageData);
+                const blob = dataURLToBlob(imageData);
+                const file = new File([blob], 'captured-image.png', { type: 'image/png' });
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                fileInput.files = dataTransfer.files;
+                console.log('File is ready for upload:', fileInput.files[0]);
+                video.style.display = 'none';
+                canvas.style.display = 'block';
+                captureBtn.style.display = 'none';
+                recaptureBtn.style.display = 'inline-block';
+                hasCaptured = true;
+                toggleNextButton();
+                
+                // Stop face detection when captured
+                clearInterval(faceDetectionInterval);
+                document.querySelector('.face-detection-canvas')?.remove();
+            });
+
+            // Recapture button event
+            recaptureBtn.addEventListener('click', () => {
+                canvas.style.display = 'none';
+                video.style.display = 'block';
+                captureBtn.style.display = 'inline-block';
+                recaptureBtn.style.display = 'none';
+                const dataTransfer = new DataTransfer();
+                fileInput.files = dataTransfer.files;
+                console.log('File input cleared. Ready for a new capture.');
+                hasCaptured = false;
+                toggleNextButton();
+                
+                // Restart face detection
+                faceDetectionInterval = setInterval(detectFaces, 500);
+            });
+
+            // File input change event
+            fileInput.addEventListener('change', () => {
+                const fr = new FileReader();
+                fr.readAsDataURL(fileInput.files[0]);
+                fr.addEventListener('load', () => {
+                    const url = fr.result;
+                    localStorage.setItem('captured-image', url);
+                });
+            });
+
+            // Consent checkbox event
+            consentCheckbox.addEventListener('change', toggleNextButton);
+
+            // Next button event
+            nextButton.addEventListener('click', () => {
+                // Stop face detection before navigating
+                clearInterval(faceDetectionInterval);
+                window.location.href = 'instructions.html';
+            });
+        });
+
+        // Sign out function
+        function signOut() {
+            // Stop face detection before signing out
+            clearInterval(faceDetectionInterval);
+            localStorage.clear();
+            sessionStorage.clear();
+            window.location.href = 'student_signin.html';
+        }
+    </script>
+</body>
+
+</html>

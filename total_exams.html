@@ -1,0 +1,139 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"/> <meta name="viewport" content="width=device-width, initial-scale=1.0"/> <title>Total Exams</title> <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"> <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <style> :root { --primary: #005b96; --accent: #0099cc; --bg-light: #f4f6f8; --white: #ffffff; --shadow: 0 4px 12px rgba(0, 0, 0, 0.06); --radius: 16px; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background: var(--bg-light);
+  display: flex;
+  min-height: 100vh;
+}
+
+.main {
+  flex: 1;
+  padding: 40px 30px;
+  overflow-y: auto;
+}
+
+.main h2 {
+  font-size: 28px;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+.exam-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.exam-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.exam-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.exam-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.exam-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #222;
+}
+
+.subject-badge {
+  display: flex;
+  align-items: center;
+  background-color: #e1f5fe;
+  color: #0277bd;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  gap: 6px;
+}
+
+.exam-details {
+  font-size: 15px;
+  margin: 6px 0;
+  color: #444;
+}
+
+.exam-status {
+  margin-top: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  width: fit-content;
+}
+
+.status-upcoming {
+  background-color: #ff9800;
+  color: white;
+}
+
+.status-completed {
+  background-color: #4caf50;
+  color: white;
+}
+
+@media (max-width: 600px) {
+  .main {
+    padding: 30px 16px;
+  }
+}
+
+</style> </head> <body> <div class="main"> <h2>Total Exams</h2>
+  <div class="exam-grid">
+  <div class="exam-card">
+    <div class="exam-header">
+      <div class="exam-title">Engg Mathematics</div>
+      <div class="subject-badge"><i class="fas fa-square-root-alt"></i> Math</div>
+    </div>
+    <div class="exam-details"><strong>Subject:</strong> Mathematics</div>
+    <div class="exam-details"><strong>Date:</strong> 2025-05-12</div>
+    <div class="exam-status status-upcoming">Upcoming</div>
+  </div>
+
+  <div class="exam-card">
+    <div class="exam-header">
+      <div class="exam-title">Programming</div>
+      <div class="subject-badge"><i class="fas fa-code"></i> C++</div>
+    </div>
+    <div class="exam-details"><strong>Subject:</strong> C++</div>
+    <div class="exam-details"><strong>Date:</strong> 2025-03-28</div>
+    <div class="exam-status status-completed">Completed</div>
+  </div>
+
+  <div class="exam-card">
+    <div class="exam-header">
+      <div class="exam-title">CASD</div>
+      <div class="subject-badge"><i class="fas fa-book"></i> English</div>
+    </div>
+    <div class="exam-details"><strong>Subject:</strong> English</div>
+    <div class="exam-details"><strong>Date:</strong> 2025-04-20</div>
+    <div class="exam-status status-upcoming">Upcoming</div>
+  </div>
+</div>
+
+</div> </body> </html>

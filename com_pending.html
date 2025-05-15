@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Completed and Pending Exams</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Universal reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f0f4f8, #d6e4f0);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            width: 220px;
+            background-color: #2b3e50;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #fff;
+        }
+
+        .sidebar img {
+            width: 80px;
+            margin-bottom: 20px;
+            border-radius: 50%;
+        }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background-color: #1d2a36;
+        }
+
+        .sidebar img.icon {
+            width: 25px;
+            margin-right: 15px;
+        }
+
+        /* Main content */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        /* Header styling */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1976d2;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .header .date, .header .user-info {
+            font-size: 14px;
+        }
+
+        .header .sign-out {
+            background-color: #04549e;
+            border: none;
+            color: #f8e6ec;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .header .sign-out:hover {
+            background-color: #02386a;
+        }
+
+        /* Exams Container */
+        .container {
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h1 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #333;
+        }
+
+        .course {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            transition: background-color 0.2s;
+        }
+
+        .course:hover {
+            background-color: #f7f9fc;
+        }
+
+        .course:last-child {
+            border-bottom: none;
+        }
+
+        .course-name {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .course .tag {
+            font-size: 0.9em;
+            background-color: #e0f7fa;
+            color: #00695c;
+            padding: 3px 8px;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+
+        .Date, .grade {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .grade {
+            color: #00560e;
+            font-weight: bold;
+        }
+
+        .container.completed h1 {
+            color: #00560e;
+        }
+
+        .container.pending h1 {
+            color: #ff0066;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <!-- <div class="sidebar"> -->
+        <!-- <img src="DALL·E 2024-11-11 19.20.38 - Design a professional, modern logo for a website named 'Examination Management System'. The logo should incorporate symbols of education, exams, or te.jpg" alt="LOGO"> -->
+        <!-- <img src="DALL·E-2024-11-11-19.20.jpeg" alt="LOGO">
+
+        <a href="Dashboard.html"><img src="My exams.jpeg" alt="My Exams" class="icon"> My Exams</a>
+        <a href="com_pending.html"><img src="completed and pending.jpeg" alt="Completed and Pending" class="icon"> Completed & Pending Exams</a>
+        <a href="calendar.html"><img src="calender.jpeg" alt="Academic Calendar" class="icon"> Academic Calendar</a>
+        <a href="admit_marksheet.html"><img src="admit.jpeg" alt="Admit and Marksheet" class="icon"> Admit Card & Marksheet</a>
+        <a href="submit_doc.html"><img src="submitted docu.jpeg" alt="Submitted Documents" class="icon"> Submitted Documents</a>
+        <a href="issues.html"><img src="issues.jpeg" alt="Issues and Query" class="icon"> Issues and Query</a>
+            <a href="studentresult.html"><img src="results_icon.jpeg" alt="Results" class="icon" /> Results</a>
+
+    </div>
+    -->
+   <!-- Main Content -->
+   <div class="main-content">
+        <!-- Header -->
+        <!-- <div class="header">
+            <div class="date">
+                <div>05 November, 2024</div>
+                <div>SEPTEMBER 2024 TERM</div>
+            </div>
+            <div class="user-info">
+               <div>Soutik Mandal</div>
+            </div>
+            <button class="sign-out" onclick="signOut()">SIGN OUT</button>
+        </div> -->
+
+        <!-- Completed Exams Section -->
+        <div class="container completed">
+            <h1>Completed Exams</h1>
+            <div class="course">
+                <div class="course-name">
+                    Finite Automata <span class="tag TOC">Theory of Computation</span>
+                </div>
+                <div class="Date">Date: 16.08.2024</div>
+                <div class="grade">Grade: A+</div>
+            </div>
+            <div class="course">
+                <div class="course-name">
+                    Machine Learning Techniques <span class="tag data-science">Data Science</span>
+                </div>
+                <div class="Date">Date: 18.08.2024</div>
+                <div class="grade">Grade: A</div>
+            </div>
+            <div class="course">
+                <div class="course-name">
+                    Graphs <span class="tag programming">Algorithm</span>
+                </div>
+                <div class="Date">Date: 19.08.2024</div>
+                <div class="grade">Grade: O</div>
+            </div>
+            <div class="course">
+                <div class="course-name">
+                    JAVA <span class="tag programming">Programming</span>
+                </div>
+                <div class="Date">Date: 21.08.2024</div>
+                <div class="grade">Grade: A</div>
+            </div>
+            <div class="course">
+                <div class="course-name">
+                    Digital Electronics <span class="tag electronics">Electronics</span>
+                </div>
+                <div class="Date">Date: 21.08.2024</div>
+                <div class="grade">Grade: O</div>
+            </div>
+        </div>
+
+        <!-- Pending Exams Section -->
+        <div class="container pending">
+            <h1>Pending Exams</h1>
+            <div class="course">
+                <div class="course-name">
+                    Operating System <span class="tag OS">OS</span>
+                </div>
+                <div class="Date">Date: 10.07.2024</div>
+            </div>
+            <div class="course">
+                <div class="course-name">
+                    Computer Network <span class="tag CN">CN</span>
+                </div>
+                <div class="Date">Date: 12.07.2024</div>
+            </div>
+            <div class="course">
+                <div class="course-name">
+                    Quantitative Aptitude <span class="tag aptitude">Aptitude</span>
+                </div>
+                <div class="Date">Date: 13.07.2024</div>
+            </div>
+            <div class="course">
+                <div class="course-name">
+                    DBMS <span class="tag DBMS">DBMS</span>
+                </div>
+                <div class="Date">Date: 15.07.2024</div>
+            </div>
+            <div class="course">
+                <div class="course-name">
+                    Business Analytics <span class="tag data-science">Data Science</span>
+                </div>
+                <div class="Date">Date: 15.07.2024</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sign out function
+        function signOut() {
+            localStorage.clear();
+            sessionStorage.clear();
+            window.location.href = 'student_signin.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DBMS Quiz</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            background: linear-gradient(to right, #f0f4f8, #d9e2ec);
+            color: #2d3436;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Question styling */
+        .question {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 25px 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+            transition: box-shadow 0.3s ease, transform 0.2s ease;
+            scroll-margin-top: 160px;
+        }
+
+        .question:hover {
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .question p {
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: #2c3e50;
+        }
+
+        .options label {
+            display: block;
+            margin: 10px 0;
+            cursor: pointer;
+            font-size: 0.96rem;
+            padding: 10px 14px;
+            border-radius: 8px;
+            transition: background 0.25s ease;
+            background-color: #f8f9fa;
+        }
+
+        .options input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .options label:hover {
+            background-color: #e0f2f1;
+        }
+
+        /* Button styles */
+        .btn {
+            padding: 12px 20px;
+            margin-top: 30px;
+            margin-right: 14px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .btn-next {
+            background-color: #2ecc71;
+            color: #fff;
+        }
+
+        .btn-prev {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        .btn-finish {
+            background-color: #8e44ad;
+            color: #fff;
+        }
+
+        .btn-preview {
+            background-color: #f39c12;
+            color: #fff;
+            margin-top: 10px;
+        }
+
+        .btn-preview.marked {
+            background-color: #e67e22;
+        }
+
+        /* Modal overlay */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(3px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        /* Modal container */
+        .modal {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal p {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #2d3436;
+        }
+
+        /* Modal button group */
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .modal-buttons button {
+            padding: 10px 18px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn-back {
+            background-color: #b2bec3;
+            color: #2d3436;
+        }
+
+        .btn-sure {
+            background-color: #2ecc71;
+            color: #fff;
+        }
+
+        .modal-buttons button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+        }
+
+        .quiz-container {
+            margin-top: 100px;
+            padding: 20px;
+        }
+
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgb(132, 214, 246);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #ccc;
+            box-sizing: border-box;
+            position: fixed;
+        }
+
+        .fixed-header h2 {
+            flex: 1;
+            color: #2c3e50;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-align: center;
+            margin: 0 20px;
+            font-size: 28px;
+        }
+
+        #timer {
+            color: red;
+            font-weight: bold;
+            font-size: 18px;
+            position: absolute;
+            right: 40px;
+            margin: 0 20px;
+        }
+
+        .circle-header {
+            position: fixed;
+            top: 38px;
+            left: 0;
+            width: 100%;
+            background: #ffcccb;
+            z-index: 1001;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            border-bottom: 2px solid #7cd0e8;
+            position: fixed;
+        }
+
+        .circle-container {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #000000;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .circle:hover {
+            background-color: #87ceeb;
+        }
+
+        .circle.answered {
+            background-color: #2ecc71 !important;
+            /* green */
+            color: white;
+        }
+
+        .circle.unattempted {
+            background-color: #e74c3c !important;
+            /* Red */
+            color: white;
+        }
+
+
+        .circle.marked {
+            background-color: #f1c40f !important;
+            /* yellow */
+            color: white;
+        }
+
+        .circle.answered.marked {
+            background-color: #9b59b6 !important;
+            /* Purple */
+            color: white;
+        }
+
+        .summary-circle {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+
+        .summary-green {
+            background-color: #2ecc71;
+        }
+
+        .summary-yellow {
+            background-color: #f1c40f;
+        }
+
+        .summary-purple {
+            background-color: #9b59b6;
+        }
+
+        .summary-red {
+            background-color: #e74c3c;
+        }
+
+        /* Optional fade-in animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="fixed-header">
+        <h2 class="quiz-title">DBMS Quiz</h2>
+        <div id="timer">Time left: <span id="time">20:00</span></div>
+    </div>
+    <div class="circle-header">
+        <div class="circle-container">
+            <a href="#q1" class="circle" data-question="1">1</a>
+            <a href="#q2" class="circle" data-question="2">2</a>
+            <a href="#q3" class="circle" data-question="3">3</a>
+            <a href="#q4" class="circle" data-question="4">4</a>
+            <a href="#q5" class="circle" data-question="5">5</a>
+            <a href="#q6" class="circle" data-question="6">6</a>
+            <a href="#q7" class="circle" data-question="7">7</a>
+            <a href="#q8" class="circle" data-question="8">8</a>
+            <a href="#q9" class="circle" data-question="9">9</a>
+            <a href="#q10" class="circle" data-question="10">10</a>
+        </div>
+    </div>
+    <div class="quiz-container">
+        <form id="quizForm2">
+            <div class="question" id="q1">
+                <p>1. What does DBMS stand for?(2 marks)</p>
+                <div class="options">
+                    <label><input type="radio" name="q1" value="a"> Data Base Management System</label>
+                    <label><input type="radio" name="q1" value="b"> Database Management Service</label>
+                    <label><input type="radio" name="q1" value="c"> Data Building Management System</label>
+                    <label><input type="radio" name="q1" value="d"> Database Model Service</label>
+                </div>
+                <button type="button" class="btn btn-preview" onclick="markForReview(this)">Marked for Preview</button>
+                <div style="display:none;">Correct answer: a. Data Base Management System</div>
+            </div>
+            <div class="question" id="q2">
+                <p>2. Which language is used to manipulate data in DBMS?(2 marks)</p>
+                <div class="options">
+                    <label><input type="radio" name="q2" value="a"> DDL</label>
+                    <label><input type="radio" name="q2" value="b"> DML</label>
+                    <label><input type="radio" name="q2" value="c"> DCL</label>
+                    <label><input type="radio" name="q2" value="d"> TCL</label>
+                </div>
+                <button type="button" class="btn btn-preview" onclick="markForReview(this)">Marked for Preview</button>
+                <div style="display:none;">Correct answer: b. DML</div>
+            </div>
+            <div class="question" id="q3">
+                <p>3. Which of the following is not a type of database?(2 marks)</p>
+                <div class="options">
+                    <label><input type="radio" name="q3" value="a"> Hierarchical</label>
+                    <label><input type="radio" name="q3" value="b"> Network</label>
+                    <label><input type="radio" name="q3" value="c"> Relational</label>
+                    <label><input type="radio" name="q3" value="d"> Linear</label>
+                </div>
+                <button type="button" class="btn btn-preview" onclick="markForReview(this)">Marked for Preview</button>
+                <div style="display:none;">Correct answer: d. Linear</div>
+            </div>
+            <div class="question" id="q4">
+                <p>4. What is a primary key?(2 marks)</p>
+                <div class="options">
+                    <label><input type="radio" name="q4" value="a"> Unique identifier for a record</label>
+                    <label><input type="radio" name="q4" value="b"> A duplicate field</label>
+                    <label><input type="radio" name="q4" value="c"> A foreign key</label>
+                    <label><input type="radio" name="q4" value="d"> None of the above</label>
+                </div>
+                <button type="button" class="btn btn-preview" onclick="markForReview(this)">Marked for Preview</button>
+                <div style="display:none;">Correct answer: a. Unique identifier for a record</div>
+            </div>
+            <div class="question" id="q5">
+                <p>5. Which SQL command is used to create a table?(2 marks)</p>
+                <div class="options">
+                    <label><input type="radio" name="q5" value="a"> INSERT</label>
+                    <label><input type="radio" name="q5" value="b"> UPDATE</label>
+                    <label><input type="radio" name="q5" value="c"> CREATE</label>
+                    <label><input type="radio" name="q5" value="d"> SELECT</label>
+                </div>
+                <button type="button" class="btn btn-preview" onclick="markForReview(this)">Marked for Preview</button>
+                <div style="display:none;">Correct answer: c. CREATE</div>
+            </div>
+            <div class="question" id="q6">
+                <p>6. Which of the following is a DDL command?(2 marks)</p>
+                <div class="options">
+                    <label><input type="radio" name="q6" value="a"> SELECT</label>
+                    <label><input type="radio" name="q6" value="b"> CREATE</label>
+                    <label><input type="radio" name="q6" value="c"> UPDATE</label>
+                    <label><input type="radio" name="q6" value="d"> DELETE</label>
+                </div>
+                <button type="button" class="btn btn-preview" onclick="markForReview(this)">Marked for Preview</button>
+                <div style="display:none;">Correct answer: b. CREATE</div>
+            </div>
+            <div class="question" id="q7">
+                <p>7. What is a foreign key?(2 marks)</p>
+                <div class="options">
+                    <label><input type="radio" name="q7" value="a"> A unique key</label>
+                    <label><input type="radio" name="q7" value="b"> A key in one table that refers to the primary key of
+                        another table</label>
+                    <label><input type="radio" name="q7" value="c"> A duplicate field</label>
+                    <label><input type="radio" name="q7" value="d"> A null key</label>
+                </div>
+                <button type="button" class="btn btn-preview" onclick="markForReview(this)">Marked for Preview</button>
+                <div style="display:none;">Correct answer: b. A key in one table that refers to the primary key of
+                    another
+                    table</div>
+            </div>
+            <div class="question" id="q8">
+                <p>8. What is normalization?(2 marks)</p>
+                <div class="options">
+                    <label><input type="radio" name="q8" value="a"> Creating duplicate data</label>
+                    <label><input type="radio" name="q8" value="b"> Eliminating redundancy</label>
+                    <label><input type="radio" name="q8" value="c"> Data compression</label>
+                    <label><input type="radio" name="q8" value="d"> Adding more tables</label>
+                </div>
+                <button type="button" class="btn btn-preview" onclick="markForReview(this)">Marked for Preview</button>
+                <div style="display:none;">Correct answer: b. Eliminating redundancy</div>
+            </div>
+            <div class="question" id="q9">
+                <p>9. Which SQL clause is used to filter records?(2 marks)</p>
+                <div class="options">
+                    <label><input type="radio" name="q9" value="a"> WHERE</label>
+                    <label><input type="radio" name="q9" value="b"> GROUP BY</label>
+                    <label><input type="radio" name="q9" value="c"> HAVING</label>
+                    <label><input type="radio" name="q9" value="d"> ORDER BY</label>
+                </div>
+                <button type="button" class="btn btn-preview" onclick="markForReview(this)">Marked for Preview</button>
+                <div style="display:none;">Correct answer: a. WHERE</div>
+            </div>
+            <div class="question" id="q10">
+                <p>10. Which SQL command is used to remove a table from a database?(2 marks)</p>
+                <div class="options">
+                    <label><input type="radio" name="q10" value="a"> REMOVE</label>
+                    <label><input type="radio" name="q10" value="b"> DELETE</label>
+                    <label><input type="radio" name="q10" value="c"> DROP</label>
+                    <label><input type="radio" name="q10" value="d"> ERASE</label>
+                </div>
+                <button type="button" class="btn btn-preview" onclick="markForReview(this)">Marked for Preview</button>
+                <div style="display:none;">Correct answer: c. DROP</div>
+            </div>
+
+            <div style="text-align: center; width: 100%;">
+                <button type="button" class="btn btn-finish" onclick="showConfirmation()">Finish Test</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- First Confirmation Modal -->
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal">
+            <p>Confirm the submission and prevent accidental submissions</p>
+            <div class="modal-buttons">
+                <button class="btn-back" onclick="closeModal()">Back</button>
+                <button class="btn-sure" onclick="submitTest()">Sure</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Second Dashboard Modal -->
+    <div class="modal-overlay" id="dashboardModal">
+        <div class="modal">
+            <p>GO TO DASHBOARD</p>
+            <div class="modal-buttons">
+                <a href="futuristic.html"><button class="btn-dashboard" onclick="goToDashboard()">Go</button></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const testStartTime = Date.now();
+        // Timer setup
+        const timerEl = document.getElementById("time");
+        let time = 1200;
+        const interval = setInterval(() => {
+            if (time <= 0) {
+                clearInterval(interval);
+                alert("Time's up! Submitting your answers.");
+                showConfirmation();
+            } else {
+                let minutes = Math.floor(time / 60);
+                let seconds = time % 60;
+                timerEl.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                time--;
+            }
+        }, 1000);
+
+        function updateCircleStatus(qNum) {
+            const radios = document.querySelectorAll(`input[name="q${qNum}"]`);
+            const isAnswered = Array.from(radios).some(r => r.checked);
+            const isMarked = markedQuestions.has(Number(qNum));
+            const circle = document.querySelector(`.circle[data-question="${qNum}"]`);
+
+            // Remove both classes first
+            circle.classList.remove('answered', 'marked');
+
+            if (isAnswered && isMarked) {
+                circle.classList.add('answered', 'marked'); // Purple (both classes applied)
+            } else if (isAnswered) {
+                circle.classList.add('answered'); // Green
+            } else if (isMarked) {
+                circle.classList.add('marked'); // Yellow
+            }
+        }
+
+        function showConfirmation() {
+            document.getElementById("confirmModal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("confirmModal").style.display = "none";
+        }
+
+        const markedQuestions = new Set();
+
+        function markForReview(button) {
+            const question = button.closest('.question');
+            const index = Array.from(document.querySelectorAll('.question')).indexOf(question) + 1;
+
+            if (markedQuestions.has(index)) {
+                markedQuestions.delete(index);
+                button.classList.remove('marked');
+                button.textContent = "Marked for Preview";
+            } else {
+                markedQuestions.add(index);
+                button.classList.add('marked');
+                button.textContent = "Marked";
+            }
+
+            updateCircleStatus(index); // Recalculate circle color
+        }
+
+
+        function submitTest() {
+            const form = document.getElementById("quizForm2");
+            const questionElements = form.querySelectorAll('.question');
+
+            let attempted = 0;
+            let marked = 0;
+            let both = 0;
+            let unattempted = 0;
+
+            questionElements.forEach((questionEl, index) => {
+                const qNum = index + 1;
+                const selected = questionEl.querySelector(`input[name="q${qNum}"]:checked`);
+                const isMarked = markedQuestions.has(qNum);
+                const circle = document.querySelector(`.circle[data-question="${qNum}"]`);
+
+                // Remove previous status
+                circle.classList.remove('answered', 'marked', 'unattempted');
+
+                // Determine state
+                if (selected && isMarked) {
+                    both++;
+                    attempted++;
+                    circle.classList.add('answered', 'marked'); // purple
+                } else if (selected) {
+                    attempted++;
+                    circle.classList.add('answered'); // green
+                } else if (isMarked) {
+                    marked++;
+                    circle.classList.add('marked'); // yellow
+                } else {
+                    unattempted++;
+                    circle.classList.add('unattempted'); // RED — this line only executes on final submit
+                }
+            });
+
+            // Hide confirmation modal
+            document.getElementById("confirmModal").style.display = "none";
+            const testEndTime = Date.now();
+            const timeTakenMs = testEndTime - testStartTime;
+            const timeTakenSec = Math.floor(timeTakenMs / 1000);
+            const minutesTaken = Math.floor(timeTakenSec / 60);
+            const secondsTaken = timeTakenSec % 60;
+
+            const formattedTimeTaken = `${minutesTaken} minute${minutesTaken !== 1 ? 's' : ''} ${secondsTaken} second${secondsTaken !== 1 ? 's' : ''}`;
+            // Show dashboard summary
+            const dashboardModal = document.getElementById("dashboardModal");
+            dashboardModal.querySelector("p").innerHTML =
+                `<div><span class="summary-circle summary-green"></span><b>Attempted:</b> ${attempted}</div>
+         <div><span class="summary-circle summary-red"></span><b>Unattempted:</b> ${unattempted}</div>
+         <div><span class="summary-circle summary-yellow"></span><b>Marked for Preview:</b> ${marked}</div>
+         <div><span class="summary-circle summary-purple"></span><b>Marked & Attempted:</b> ${both}</div><br>
+         <div style="margin-top: 10px;"><b>Time Taken:</b> ${formattedTimeTaken}</div><br>
+         <b>Go to Dashboard</b>`;
+
+            dashboardModal.style.display = "flex";
+        }
+
+        function goToDashboard() {
+            window.location.href = "dashboard.html"; // Or your actual dashboard page
+        }
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            const match = radio.name.match(/q(\d+)/);
+            if (!match) return;
+            const qNum = match[1];
+
+            radio.addEventListener('mousedown', function () {
+                if (this.checked) {
+                    this.wasChecked = true;
+                }
+            });
+
+            radio.addEventListener('click', function () {
+                if (this.wasChecked) {
+                    // Allow unchecking
+                    this.checked = false;
+                }
+                this.wasChecked = false;
+
+                // 🔄 Always update the circle after click, regardless of state
+                setTimeout(() => updateCircleStatus(qNum), 0); // Delay needed to ensure DOM state is correct
+            });
+
+            // Also handle normal changes
+            radio.addEventListener('change', () => {
+                updateCircleStatus(qNum);
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Documents</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to bottom, #cbe4f3, #1093d5);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+    }
+
+    .main {
+      width: 100%;
+      max-width: 1200px;
+      background: #ffffffea;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      overflow: auto;
+    }
+
+    .main h2 {
+      text-align: center;
+      color: #00695c;
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 30px;
+    }
+
+    .search-bar {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+
+    .search-bar input {
+      padding: 14px 24px;
+      width: 60%;
+      max-width: 500px;
+      border-radius: 50px;
+      border: 2px solid #b2dfdb;
+      font-size: 16px;
+      outline: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .search-bar input:focus {
+      border-color: #009688;
+      box-shadow: 0 6px 20px rgba(0, 150, 136, 0.2);
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .doc-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .doc-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .doc-type {
+      font-size: 14px;
+      font-weight: 700;
+      color: #00796b;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .doc-info {
+      font-size: 15px;
+      color: #333;
+      margin-bottom: 18px;
+    }
+
+    .download-btn {
+      background: #009688;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .download-btn:hover {
+      background: #00796b;
+    }
+
+    @media (max-width: 768px) {
+      .search-bar input {
+        width: 90%;
+      }
+    }
+
+    /* Optional animation when filtering */
+    .doc-card {
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    .doc-card.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.98);
+    }
+  </style>
+</head>
+<body>
+  <div class="main">
+    <h2>Student Documents</h2>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search documents..." onkeyup="filterDocuments()">
+    </div>
+
+    <div class="card-grid" id="docContainer">
+      <div class="doc-card">
+        <div class="doc-type">ADMISSION_LETTER</div>
+        <div class="doc-info">Admission Letter</div>
+        <a href="Admission_Letter_Rohan_Banik.pdf" download class="download-btn"><i class="fas fa-download"></i> Download</a>
+      </div>
+      <div class="doc-card">
+        <div class="doc-type">ADMIT_CARD</div>
+        <div class="doc-info">2024 Jun 25 | Sem 5 Admit Card</div>
+        <a href="Admit_Card_Rohan_Banik.pdf" download class="download-btn"><i class="fas fa-download"></i> Download</a>
+      </div>
+      <div class="doc-card">
+        <div class="doc-type">GRADE_CARD</div>
+        <div class="doc-info">2024 May 15 | Sem 5 Grade Card</div>
+        <a href="Grade_Card_Rohan_Banik.pdf" download class="download-btn"><i class="fas fa-download"></i> Download</a>
+      </div>
+      <div class="doc-card">
+        <div class="doc-type">ADMIT_CARD</div>
+        <div class="doc-info">2024 Jan 10 | Sem 4 Admit Card</div>
+        <a href="Admit_Card_Rohan_Banik.pdf" download class="download-btn"><i class="fas fa-download"></i> Download</a>
+      </div>
+      <div class="doc-card">
+        <div class="doc-type">GRADE_CARD</div>
+        <div class="doc-info">2023 Nov 10 | Sem 4 Grade Card</div>
+        <a href="Grade_Card_Rohan_Banik.pdf" download class="download-btn"><i class="fas fa-download"></i> Download</a>
+      </div>
+      <div class="doc-card">
+        <div class="doc-type">FEES_CLEARANCE</div>
+        <div class="doc-info">Fees Clearance Certificate</div>
+        <a href="Fees_Clearance_Rohan_Banik.pdf" download class="download-btn"><i class="fas fa-download"></i> Download</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function filterDocuments() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.doc-card');
+
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        if (text.includes(input)) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+  </script>
+</body>
+</html>

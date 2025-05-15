@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Results</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+      color: #333;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 220px;
+      background-color: #2b3e50;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #fff;
+    }
+
+    .sidebar img {
+      width: 80px;
+      margin-bottom: 20px;
+      border-radius: 50%;
+    }
+
+    .sidebar a {
+      color: #fff;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 15px;
+      margin: 5px 0;
+      transition: background-color 0.3s ease;
+    }
+
+    .sidebar a:hover {
+      background-color: #1d2a36;
+    }
+
+    .sidebar img.icon {
+      width: 25px;
+      margin-right: 15px;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #1976d2;
+      color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .header .title {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .result-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .result-card {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 280px;
+      text-align: center;
+    }
+
+    .result-card h3 {
+      color: #1976d2;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .result-card p {
+      font-size: 16px;
+      color: #444;
+    }
+
+    .result-card span {
+      font-weight: bold;
+      color: #e53935;
+    }
+
+    .cgpa-display {
+      font-size: 18px;
+      color: #000;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .cgpa-display span {
+      color: #d32f2f;
+      font-weight: bold;
+    }
+
+    .download-btn {
+      display: block;
+      margin: 0 auto 30px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #1976d2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .download-btn:hover {
+      background-color: #0d47a1;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <!-- <div class="sidebar">
+    <img src="DALL·E-2024-11-11-19.20.jpeg" alt="LOGO" />
+    <a href="Dashboard.html"><img src="My exams.jpeg" alt="My Exams" class="icon" /> My Exams</a>
+    <a href="com_pending.html"><img src="completed and pending.jpeg" alt="Completed and Pending" class="icon" /> Completed & Pending Exams</a>
+    <a href="calendar.html"><img src="calender.jpeg" alt="Academic Calendar" class="icon" /> Academic Calendar</a>
+    <a href="admit_marksheet.html"><img src="admit.jpeg" alt="Admit and Marksheet" class="icon" /> Admit Card & Marksheet</a>
+    <a href="submit_doc.html"><img src="submitted docu.jpeg" alt="Submitted Documents" class="icon" /> Submitted Documents</a>
+    <a href="issues.html"><img src="issues.jpeg" alt="Issues and Query" class="icon" /> Issues and Query</a>
+    <a href="studentresult.html"><img src="results_icon.jpeg" alt="Results" class="icon" /> Results</a>
+  </div> -->
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="header">
+      <div class="title">Subject-wise Results - September 2024 Term</div>
+    </div>
+
+    <p class="cgpa-display">Cumulative Grade Point Average (CGPA): <span>6.50</span></p>
+
+    <button class="download-btn" onclick="downloadPDF()">Download as PDF</button>
+
+    <div class="result-cards" id="result-section">
+      <div class="result-card">
+        <h3>Programming Concepts using Java</h3>
+        <p>Status: <span>Absent</span></p>
+      </div>
+      <div class="result-card">
+        <h3>System Commands</h3>
+        <p>Score: <span>88.00</span></p>
+      </div>
+      <div class="result-card">
+        <h3>Database Management Systems</h3>
+        <p>Score: <span>90.00</span></p>
+      </div>
+      <div class="result-card">
+        <h3>Business Data Management</h3>
+        <p>Status: <span>Absent</span></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      doc.setFontSize(16);
+      doc.text("Subject-wise Results - September 2024", 20, 20);
+      doc.setFontSize(12);
+      doc.text("Cumulative Grade Point Average (CGPA): 6.50", 20, 30);
+
+      const results = [
+        { subject: "Programming Concepts using Java", score: "Absent" },
+        { subject: "System Commands", score: "88.00" },
+        { subject: "Database Management Systems", score: "90.00" },
+        { subject: "Business Data Management", score: "Absent" }
+      ];
+
+      let y = 40;
+      results.forEach((res, index) => {
+        doc.text(`${index + 1}. ${res.subject} - ${res.score}`, 20, y);
+        y += 10;
+      });
+
+      doc.save("results.pdf");
+    }
+  </script>
+</body>
+</html>

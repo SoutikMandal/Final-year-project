@@ -1,0 +1,459 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #8ebaf7;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Header Styling */
+header {
+    width: 100%;
+    background: linear-gradient(135deg, #3a8dd8, #2c6cbf);
+    color: #ffffff;
+    padding: 50px 20px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+header h1 {
+    font-size: 3em;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: 1.5px;
+}
+
+header p {
+    font-size: 1.3em;
+    font-weight: 300;
+}
+
+/* Role Section Styling */
+#roles {
+    display: flex;
+    gap: 30px;
+    padding: 40px;
+    width: 90%;
+    max-width: 1200px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.role {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    padding: 30px;
+    width: 300px;
+    text-align: center;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.role::before {
+    content: '';
+    position: absolute;
+    top: -5%;
+    left: -5%;
+    height: 110%;
+    width: 110%;
+    background: linear-gradient(135deg, rgba(58, 141, 216, 0.1), rgba(44, 108, 191, 0.1));
+    border-radius: 12px;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.4s ease;
+}
+
+.role:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+}
+
+.role:hover::before {
+    opacity: 1;
+}
+
+/* Role Titles and Text */
+.role h2 {
+    font-size: 1.8em;
+    color: #2c6cbf;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.role p {
+    font-size: 1em;
+    color: #555;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+/* Button Styling */
+button {
+    padding: 12px 25px;
+    font-size: 1em;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #2c6cbf, #1f4d87);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.4s ease, transform 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+    background: linear-gradient(135deg, #1f4d87, #2c6cbf);
+    transform: translateY(-2px) scale(1.05);
+}
+
+/* Specific adjustment for the "Go to Student" button */
+/* #roles .role:nth-child(3) button {
+    margin-top: -10px; Adjust the value slightly to align it
+} */
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #roles {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .role {
+        width: 80%;
+        margin-bottom: 20px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Student Sign-In Page Styling */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #2c6cbf, #1f4d87);
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.signin-container {
+    width: 90%;
+    max-width: 450px;
+    padding: 40px 30px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.signin-container h2 {
+    font-size: 2.2em;
+    color: #1f4d87;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.signin-container p {
+    color: #666;
+    font-size: 1em;
+    margin-bottom: 30px;
+}
+
+label {
+    font-weight: 600;
+    color: #444;
+    display: block;
+    margin-bottom: 8px;
+    text-align: left;
+    font-size: 0.95em;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+    border-color: #2c6cbf;
+    box-shadow: 0 0 8px rgba(44, 108, 191, 0.3);
+    outline: none;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1em;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #2c6cbf, #1f4d87);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 8px 15px rgba(31, 77, 135, 0.3);
+}
+
+button:hover {
+    background: linear-gradient(135deg, #1f4d87, #2c6cbf);
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(1px);
+    box-shadow: 0 6px 10px rgba(31, 77, 135, 0.2);
+}
+
+.error {
+    color: #d9534f;
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+
+
+
+
+
+/* Teacher Sign-In Page Styling */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #2c6cbf, #1f4d87);
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.signin-container {
+    width: 90%;
+    max-width: 450px;
+    padding: 40px 30px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.signin-container h2 {
+    font-size: 2.2em;
+    color: #1f4d87;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.signin-container p {
+    color: #666;
+    font-size: 1em;
+    margin-bottom: 30px;
+}
+
+label {
+    font-weight: 600;
+    color: #444;
+    display: block;
+    margin-bottom: 8px;
+    text-align: left;
+    font-size: 0.95em;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+    border-color: #2c6cbf;
+    box-shadow: 0 0 8px rgba(44, 108, 191, 0.3);
+    outline: none;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1em;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #2c6cbf, #1f4d87);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 8px 15px rgba(31, 77, 135, 0.3);
+}
+
+button:hover {
+    background: linear-gradient(135deg, #1f4d87, #2c6cbf);
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(1px);
+    box-shadow: 0 6px 10px rgba(31, 77, 135, 0.2);
+}
+
+.error {
+    color: #d9534f;
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+
+
+
+
+
+
+/* Admin Sign-In Page Styling */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #2c6cbf, #1f4d87);
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.signin-container {
+    width: 90%;
+    max-width: 450px;
+    padding: 40px 30px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.signin-container h2 {
+    font-size: 2.2em;
+    color: #1f4d87;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.signin-container p {
+    color: #666;
+    font-size: 1em;
+    margin-bottom: 30px;
+}
+
+label {
+    font-weight: 600;
+    color: #444;
+    display: block;
+    margin-bottom: 8px;
+    text-align: left;
+    font-size: 0.95em;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+    border-color: #2c6cbf;
+    box-shadow: 0 0 8px rgba(44, 108, 191, 0.3);
+    outline: none;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1em;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #2c6cbf, #1f4d87);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 8px 15px rgba(31, 77, 135, 0.3);
+}
+
+button:hover {
+    background: linear-gradient(135deg, #1f4d87, #2c6cbf);
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(1px);
+    box-shadow: 0 6px 10px rgba(31, 77, 135, 0.2);
+}
+
+.error {
+    color: #d9534f;
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+

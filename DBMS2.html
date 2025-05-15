@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DBMS Quiz - Page 2</title>
+  <style>
+  /* Global styles */
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 40px 20px;
+    background: linear-gradient(to right, #f0f4f8, #d9e2ec);
+    color: #2d3436;
+  }
+
+  h2 {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+
+  #timer {
+    text-align: right;
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: #e74c3c;
+    font-size: 1.2rem;
+  }
+
+  /* Question styling */
+  .question {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 25px 30px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+  }
+
+  .question:hover {
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+  }
+
+  .question p {
+    font-weight: 700;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: #2c3e50;
+  }
+
+  .options label {
+    display: block;
+    margin: 10px 0;
+    cursor: pointer;
+    font-size: 0.96rem;
+    padding: 10px 14px;
+    border-radius: 8px;
+    transition: background 0.25s ease;
+    background-color: #f8f9fa;
+  }
+
+  .options input[type="radio"] {
+    margin-right: 10px;
+  }
+
+  .options label:hover {
+    background-color: #e0f2f1;
+  }
+
+  /* Button styles */
+  .btn {
+    padding: 12px 20px;
+    margin-top: 30px;
+    margin-right: 14px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+
+  .btn-next {
+    background-color: #2ecc71;
+    color: #fff;
+  }
+
+  .btn-prev {
+    background-color: #3498db;
+    color: #fff;
+  }
+
+  .btn-finish {
+    background-color: #8e44ad;
+    color: #fff;
+  }
+
+  /* Modal overlay */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  /* Modal container */
+  .modal {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .modal p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: #2d3436;
+  }
+
+  /* Modal button group */
+  .modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .modal-buttons button {
+    padding: 10px 18px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  }
+
+  .btn-back {
+    background-color: #b2bec3;
+    color: #2d3436;
+  }
+
+  .btn-sure {
+    background-color: #2ecc71;
+    color: #fff;
+  }
+
+  .modal-buttons button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Optional fade-in animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+</head>
+<body>
+  <h2>DBMS Quiz - Page 2</h2>
+  <div id="timer">Time left: <span id="time">25:00</span></div>
+
+  <form id="quizForm2">
+    <div class="question">
+      <p>6. Which of the following is a DDL command?(2 marks)</p>
+      <div class="options">
+        <label><input type="radio" name="q6" value="a"> SELECT</label>
+        <label><input type="radio" name="q6" value="b"> CREATE</label>
+        <label><input type="radio" name="q6" value="c"> UPDATE</label>
+        <label><input type="radio" name="q6" value="d"> DELETE</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>7. What is a foreign key?(2 marks)</p>
+      <div class="options">
+        <label><input type="radio" name="q7" value="a"> A unique key</label>
+        <label><input type="radio" name="q7" value="b"> A key in one table that refers to the primary key of another table</label>
+        <label><input type="radio" name="q7" value="c"> A duplicate field</label>
+        <label><input type="radio" name="q7" value="d"> A null key</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>8. What is normalization?(2 marks)</p>
+      <div class="options">
+        <label><input type="radio" name="q8" value="a"> Creating duplicate data</label>
+        <label><input type="radio" name="q8" value="b"> Eliminating redundancy</label>
+        <label><input type="radio" name="q8" value="c"> Data compression</label>
+        <label><input type="radio" name="q8" value="d"> Adding more tables</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>9. Which SQL clause is used to filter records?(2 marks)</p>
+      <div class="options">
+        <label><input type="radio" name="q9" value="a"> WHERE</label>
+        <label><input type="radio" name="q9" value="b"> GROUP BY</label>
+        <label><input type="radio" name="q9" value="c"> HAVING</label>
+        <label><input type="radio" name="q9" value="d"> ORDER BY</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p>10. Which SQL command is used to remove a table from a database?(2 marks)</p>
+      <div class="options">
+        <label><input type="radio" name="q10" value="a"> REMOVE</label>
+        <label><input type="radio" name="q10" value="b"> DELETE</label>
+        <label><input type="radio" name="q10" value="c"> DROP</label>
+        <label><input type="radio" name="q10" value="d"> ERASE</label>
+      </div>
+    </div>
+
+    <a href="DBMS.html"><button type="button" class="btn btn-prev" onclick="goToPrevious()">Previous</button></a>
+    <button type="button" class="btn btn-finish" onclick="showConfirmation()">Finish Test</button>
+  </form>
+
+  <!-- First Confirmation Modal -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal">
+      <p>Confirm the submission and prevent accidental submissions</p>
+      <div class="modal-buttons">
+        <button class="btn-back" onclick="closeModal()">Back</button>
+        <button class="btn-sure" onclick="submitTest()">Sure</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Second Dashboard Modal -->
+  <div class="modal-overlay" id="dashboardModal">
+    <div class="modal">
+      <p>GO TO DASHBOARD</p>
+      <div class="modal-buttons">
+        <button class="btn-dashboard" onclick="goToDashboard()">Go</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Timer setup
+    const timerEl = document.getElementById("time");
+    let time = 1500;
+    const interval = setInterval(() => {
+      if (time <= 0) {
+        clearInterval(interval);
+        alert("Time's up! Submitting your answers.");
+        showConfirmation();
+      } else {
+        let minutes = Math.floor(time / 60);
+        let seconds = time % 60;
+        timerEl.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        time--;
+      }
+    }, 1000);
+
+    function goToPrevious() {
+      window.location.href = 'page1.html';
+    }
+
+    function showConfirmation() {
+      document.getElementById("confirmModal").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("confirmModal").style.display = "none";
+    }
+
+    function submitTest() {
+      const form = document.getElementById("quizForm2");
+      const answers = {};
+      for (let i = 6; i <= 10; i++) {
+        const selected = form.querySelector(`input[name="q${i}"]:checked`);
+        answers[`q${i}`] = selected ? selected.value : null;
+      }
+      localStorage.setItem("page2Answers", JSON.stringify(answers));
+
+      const page1Answers = JSON.parse(localStorage.getItem("page1Answers")) || {};
+      const allAnswers = { ...page1Answers, ...answers };
+
+      console.log("Submitted Answers:", allAnswers);
+      localStorage.clear();
+
+      document.getElementById("confirmModal").style.display = "none";
+      document.getElementById("dashboardModal").style.display = "flex";
+    }
+
+    function goToDashboard() {
+      window.location.href = "futuristic.html"; // Or your actual dashboard page
+    }
+  </script>
+</body>
+</html>

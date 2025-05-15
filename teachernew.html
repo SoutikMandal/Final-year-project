@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Teacher Panel - Multi Subject Upload</title>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Teacher Panel - Multi Subject Upload</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #eef2f7;
+    }
+
+    header {
+      background: #344955;
+      color: white;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #menuButton {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      margin-right: 15px;
+    }
+
+    h1 {
+      margin: 0 auto;
+      font-size: 24px;
+    }
+
+    #sidebar {
+      position: fixed;
+      left: -200px;
+      top: 0;
+      width: 200px;
+      height: 100%;
+      background: #232f34;
+      color: white;
+      padding: 20px 12px;
+      transition: left 0.3s ease-in-out;
+      z-index: 1001;
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+    }
+
+    #sidebar button {
+      background: #4a6572;
+      color: white;
+      width: 100%;
+      padding: 8px 10px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+
+    #sidebar.open {
+      left: 0;
+    }
+
+    .content {
+      padding: 24px;
+    }
+
+    .subject-set {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 32px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      transition: box-shadow 0.2s ease-in-out;
+    }
+
+    .subject-set:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 16px;
+      margin-bottom: 6px;
+      color: #344955;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    .subject-set button {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: none;
+      background-color: #f9aa33;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      margin-right: 10px;
+      margin-top: 10px;
+    }
+
+    .subject-set button:hover {
+      background-color: #d98e00;
+    }
+
+    .preview-box {
+      background: #f8f8f8;
+      padding: 16px;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      font-family: monospace;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      max-width: 90vw;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+
+</head>
+<body>
+
+<header>
+  <button id="menuButton" onclick="toggleSidebar()">☰</button>
+  <h1>Teacher Panel - Multi Subject Upload</h1>
+</header>
+
+<div id="sidebar">
+  <a href="index.html"><button onclick="signOut()">Sign Out</button></a>
+</div>
+
+<div class="content">
+  <div id="subjectContainer"></div>
+  <button onclick="addSubjectSet()">+ Add Subject Set</button>
+</div>
+
+<div id="modal" class="modal" onclick="closeModal(event)">
+  <div class="modal-content" id="modalContent"></div>
+</div>
+
+<script>
+  let subjectCounter = 0;
+
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+  }
+
+  function signOut() {
+    alert('Signing out...');
+    // Logic for sign out can be added here
+  }
+
+  function addSubjectSet() {
+    subjectCounter++;
+    const container = document.getElementById('subjectContainer');
+    const div = document.createElement('div');
+    div.className = 'subject-set';
+    div.id = `subjectSet-${subjectCounter}`;
+    div.innerHTML = `
+      <label>Subject Name</label>
+      <input type="text" id="subject-${subjectCounter}" placeholder="e.g., Object Oriented Programming" />
+
+      <label>Exam Date</label>
+      <input type="date" id="date-${subjectCounter}" />
+
+      <label>Duration (minutes)</label>
+      <input type="number" id="duration-${subjectCounter}" placeholder="e.g., 60" />
+
+      <label>Paste Questions (markdown supported for images)</label>
+      <textarea id="questions-${subjectCounter}" rows="10" placeholder="e.g., 1. What is OOP?\nA. Concept\nB. Procedure\nC. Example\nD. None\n![image](https://example.com/img.png)"></textarea>
+
+      <label>Paste Answer Key (e.g., 1. A)</label>
+      <textarea id="answers-${subjectCounter}" rows="5" placeholder="1. A\n2. B\n..."></textarea>
+
+      <button onclick="preview(${subjectCounter})">Preview Questions</button>
+      <button onclick="previewAnswers(${subjectCounter})">Preview Answers</button>
+      <button onclick="upload(${subjectCounter})">Upload</button>
+      <button onclick="deleteSet(${subjectCounter})">Delete This Subject Set</button>
+    `;
+    container.appendChild(div);
+  }
+
+  function preview(index) {
+    const rawText = document.getElementById(`questions-${index}`).value.trim();
+    const lines = rawText.split(/\n(?=\d+\.)/);
+
+    const formatted = lines.map((block, i) => {
+      const parts = block.trim().split(/\n|(?<=\))\s*(?=[A-Z])/g).filter(p => p.trim());
+      const questionLine = parts[0];
+      const options = parts.slice(1);
+
+      const labeledOptions = options.map((opt, idx) => {
+        const letter = String.fromCharCode(65 + idx);
+        return `  ${letter}. ${opt.trim()}`;
+      }).join("\n");
+
+      return `${questionLine}\n${labeledOptions}`;
+    }).join("\n\n");
+
+    showModal(`<pre class='preview-box'>${formatted.replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1" style="max-width:100%;"><br>')}</pre>`);
+  }
+
+  function previewAnswers(index) {
+    const answers = document.getElementById(`answers-${index}`).value.trim();
+    showModal(`<pre class='preview-box'>${answers}</pre>`);
+  }
+
+  function upload(index) {
+    const subject = document.getElementById(`subject-${index}`).value;
+    const date = document.getElementById(`date-${index}`).value;
+    const duration = document.getElementById(`duration-${index}`).value;
+    const questions = document.getElementById(`questions-${index}`).value;
+    const answers = document.getElementById(`answers-${index}`).value;
+
+    // Replace this with actual upload logic (API call, saving to file, etc.)
+    alert(`Uploaded:\nSubject: ${subject}\nDate: ${date}\nDuration: ${duration} mins`);
+  }
+
+  function deleteSet(index) {
+    const set = document.getElementById(`subjectSet-${index}`);
+    if (set) set.remove();
+  }
+
+  function showModal(content) {
+    const modal = document.getElementById('modal');
+    const modalContent = document.getElementById('modalContent');
+    modalContent.innerHTML = content;
+    modal.style.display = 'flex';
+  }
+
+  function closeModal(event) {
+    if (event.target.id === 'modal') {
+      document.getElementById('modal').style.display = 'none';
+      document.getElementById('modalContent').innerHTML = '';
+    }
+  }
+
+  // Optional: Preload 3 subjects
+  ['Database Management System', 'Object Oriented Programming', 'Computer Networking'].forEach((sub, i) => {
+    addSubjectSet();
+    document.getElementById(`subject-${i + 1}`).value = sub;
+  });
+</script>
+
+</body>
+</html>

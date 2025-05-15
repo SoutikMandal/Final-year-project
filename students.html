@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Students - Exam Admin</title>
+  <style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.wrapper {
+  display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background-color:#25abe9;
+  color: white;
+  height: 100vh;
+  padding: 20px 10px;
+}
+
+.nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.nav li {
+  margin: 15px 0;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.nav li:hover {
+  background-color: #1f6ef6;
+}
+.main {
+  flex-grow: 1;
+  background: linear-gradient(to bottom, #87cefa, #d4f1f9);
+  min-height: 100vh;
+  padding: 0 20px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+  background-color: #0a66c2;
+  color: white;
+  padding: 15px;
+  border-radius: 0 0 8px 8px;
+  margin-bottom: 10px;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  text-align: center;
+}
+
+.title {
+  color: #e6005c;
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+#searchBox {
+  padding: 10px;
+  width: 60%;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+th {
+  background-color: #007BFF;
+  color: white;
+  padding: 12px;
+  text-align: left;
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #f2f9ff;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+       <h2>Admin Panel</h2>
+      <nav class="nav">
+        
+        <ul>
+          <li><a href="a.html">Dashboard</a></li>
+        <li><a href="manage.html">Manage Exams</a></li>
+        <li><a href="students.html">Document</a></li>
+        <li><a href="results.html">Teacher</a></li>
+        <li><a href="settings.html">Settings</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+  <div class="container">
+   <h1 class="title">Student Documents</h1>
+    <input type="text" id="searchBox" placeholder="Search your documents" />
+
+    <table id="documentTable">
+      <thead>
+        <tr>
+          <th>DOCUMENT TYPE</th>
+          <th>DOCUMENT</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+      
+      </tbody>
+    </table>
+  </div>
+</body>
+
+  <script>
+
+    const documents = [
+  ["ADMISSION_LETTER", "Admission Letter"],
+  ["ADMIT_CARD", "2024 Jun 25 | Sem 5 Grade Card"],
+  ["GRADE_CARD", "2024 May 15 | Sem 5 Admit Card"],
+  ["ADMIT_CARD", "2024 Jan 10 | Sem 4 Grade Card"],
+  ["GRADE_CARD", "2023 Nov 10 | Sem 4 Admit Card"],
+  ["ADMIT_CARD", "2023 Aug 07 | Sem 3 Grade Card"],
+  ["GRADE_CARD", "2023 Aug 07 | Sem 3 Grade Card"],
+  ["ADMIT_CARD", "2023 May 03 | Sem 3 Admit Card"],
+  ["GRADE_CARD", "2023 Mar 15 | Sem 3 Grade Card"],
+  ["ADMIT_CARD", "2022 Dec 3 | Sem 3 Admit Card"]
+];
+
+const tableBody = document.getElementById("tableBody");
+const searchBox = document.getElementById("searchBox");
+
+function renderTable(data) {
+  tableBody.innerHTML = "";
+  data.forEach(([type, doc]) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `<td>${type}</td><td>${doc}</td>`;
+    tableBody.appendChild(row);
+  });
+}
+
+searchBox.addEventListener("input", () => {
+  const query = searchBox.value.toLowerCase();
+  const filtered = documents.filter(([type, doc]) =>
+    type.toLowerCase().includes(query) || doc.toLowerCase().includes(query)
+  );
+  renderTable(filtered);
+});
+
+renderTable(documents);
+
+    </script>
+</body>
+</html>

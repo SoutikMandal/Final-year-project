@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Teacher Exam Schedule</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --accent: #22c55e;
+      --accent-hover: #16a34a;
+      --text: #1f2937;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #e2e8f0;
+
+      --dark-bg: #1e293b;
+      --dark-card: #334155;
+      --dark-text: #f1f5f9;
+      --dark-border: #475569;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      padding: 40px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.dark {
+      background-color: var(--dark-bg);
+      color: var(--dark-text);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 32px;
+      margin-bottom: 30px;
+      color: var(--primary);
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .toggle-dark {
+      padding: 8px 16px;
+      font-size: 14px;
+      border: none;
+      border-radius: 6px;
+      background-color: var(--primary);
+      color: white;
+      cursor: pointer;
+    }
+
+    .input-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      background: var(--card);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+      margin: 0 auto 40px auto;
+      max-width: 900px;
+      transition: background-color 0.3s;
+    }
+
+    body.dark .input-container {
+      background: var(--dark-card);
+    }
+
+    .input-container input {
+      flex: 1;
+      min-width: 200px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 16px;
+      background: white;
+    }
+
+    body.dark .input-container input {
+      background: var(--dark-bg);
+      color: var(--dark-text);
+      border: 1px solid var(--dark-border);
+    }
+
+    .input-container button {
+      background-color: var(--accent);
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .input-container button:hover {
+      background-color: var(--accent-hover);
+    }
+
+    .card-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background-color: var(--card);
+      border-radius: 12px;
+      border-left: 6px solid var(--primary);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.07);
+      padding: 20px;
+      position: relative;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    body.dark .card {
+      background-color: var(--dark-card);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      font-size: 20px;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 15px;
+      margin: 6px 0;
+    }
+
+    .card .delete-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: crimson;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 8px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+      .input-container {
+        flex-direction: column;
+      }
+
+      .input-container input, .input-container button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <button class="toggle-dark" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+  </div>
+
+  <h1>Teacher Exam Schedule</h1>
+
+  <div class="input-container">
+    <input type="text" id="teacherName" placeholder="Teacher Name" />
+    <input type="text" id="subject" placeholder="Subject" />
+    <input type="datetime-local" id="examTime" />
+    <button onclick="addExam()">Add</button>
+  </div>
+
+  <div class="card-list" id="cardList">
+    <!-- Cards go here -->
+  </div>
+
+  <script>
+    function addExam() {
+      const name = document.getElementById('teacherName').value.trim();
+      const subject = document.getElementById('subject').value.trim();
+      const time = document.getElementById('examTime').value;
+
+      if (!name || !subject || !time) {
+        alert("Please fill all fields.");
+        return;
+      }
+
+      const cardList = document.getElementById('cardList');
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const timeStr = new Date(time).toLocaleString();
+
+      card.innerHTML = `
+        <button class="delete-btn" onclick="deleteCard(this)">Delete</button>
+        <h3>${name}</h3>
+        <p><strong>Subject:</strong> ${subject}</p>
+        <p><strong>Exam Time:</strong> ${timeStr}</p>
+      `;
+
+      cardList.appendChild(card);
+
+      document.getElementById('teacherName').value = '';
+      document.getElementById('subject').value = '';
+      document.getElementById('examTime').value = '';
+    }
+
+    function deleteCard(btn) {
+      btn.closest('.card').remove();
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+    }
+  </script>
+
+</body>
+</html>

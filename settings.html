@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel</title>
+  <style>
+    :root {
+      --primary: #1f2e44;
+      --primary-dark: #142132;
+      --background: #f4f6f8;
+      --card-bg: #ffffff;
+      --text-main: #2d3748;
+      --input-border: #cbd5e0;
+      --input-focus: #3182ce;
+      --success-color: #22c55e;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background-color: var(--background);
+      color: var(--text-main);
+      display: flex;
+    }
+
+    .main {
+      margin-left: 250px;
+      padding: 40px;
+      width: calc(100% - 250px);
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 40px 30px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+      animation: fadeIn 0.5s ease;
+      position: relative;
+    }
+
+    .card h3 {
+      margin-bottom: 25px;
+      font-size: 24px;
+      color: var(--primary);
+      border-left: 4px solid var(--primary);
+      padding-left: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px 12px;
+      font-size: 16px;
+      border: 1px solid var(--input-border);
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.3s ease, background-color 0.3s ease;
+    }
+
+    .form-group input:focus {
+      border-color: var(--input-focus);
+      background-color: #eef6ff;
+    }
+
+    .btn {
+      background-color: var(--primary);
+      color: white;
+      padding: 14px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      width: 100%;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    .save-msg {
+      position: absolute;
+      top: -30px;
+      right: 20px;
+      background-color: var(--success-color);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 14px;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      pointer-events: none;
+    }
+
+    .save-msg.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .main {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Main Content -->
+  <div class="main">
+    <!-- Update Profile -->
+    <div class="card">
+      <h3>Update Profile</h3>
+      <div class="form-group">
+        <input type="text" id="studentName" placeholder="Student's Name" />
+      </div>
+      <div class="form-group">
+        <input type="text" id="studentId" placeholder="ID No." />
+      </div>
+      <button class="btn" onclick="updateProfile()">Update Profile</button>
+      <div class="save-msg" id="profileMsg">✔ Profile Saved</div>
+    </div>
+
+    <!-- Change Password -->
+    <div class="card">
+      <h3>Change Password</h3>
+      <div class="form-group">
+        <input type="password" id="currentPass" placeholder="Current Password" />
+      </div>
+      <div class="form-group">
+        <input type="password" id="newPass" placeholder="New Password" />
+      </div>
+      <div class="form-group">
+        <input type="password" id="confirmPass" placeholder="Confirm New Password" />
+      </div>
+      <button class="btn" onclick="changePassword()">Change Password</button>
+      <div class="save-msg" id="passMsg">✔ Password Changed</div>
+    </div>
+  </div>
+
+  <script>
+    // Auto-fill saved values
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedName = localStorage.getItem('studentName');
+      const savedId = localStorage.getItem('studentId');
+      if (savedName) document.getElementById('studentName').value = savedName;
+      if (savedId) document.getElementById('studentId').value = savedId;
+    });
+
+    function updateProfile() {
+      const name = document.getElementById("studentName").value.trim();
+      const id = document.getElementById("studentId").value.trim();
+      const msg = document.getElementById("profileMsg");
+
+      if (name && id) {
+        localStorage.setItem("studentName", name);
+        localStorage.setItem("studentId", id);
+        showMessage(msg);
+      } else {
+        alert("Please fill out all fields.");
+      }
+    }
+
+    function changePassword() {
+      const current = document.getElementById("currentPass").value;
+      const newPass = document.getElementById("newPass").value;
+      const confirm = document.getElementById("confirmPass").value;
+      const msg = document.getElementById("passMsg");
+
+      if (!current || !newPass || !confirm) {
+        alert("All fields are required.");
+      } else if (newPass !== confirm) {
+        alert("New passwords do not match.");
+      } else {
+        showMessage(msg);
+      }
+    }
+
+    function showMessage(el) {
+      el.classList.add("show");
+      setTimeout(() => el.classList.remove("show"), 2000);
+    }
+  </script>
+
+</body>
+</html>

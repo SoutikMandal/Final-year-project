@@ -1,0 +1,137 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8" /> <meta name="viewport" content="width=device-width, initial-scale=1.0"/> <title>Admin Panel - Exam Results</title> <style> :root { --primary-color: #005b96; --accent-color: #0099cc; --bg-color: #f2f4f8; --card-bg: #ffffff; --input-bg: #f9f9fb; --text-color: #222; --muted-text: #666; --border-radius: 10px; }
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+}
+
+/* Top Navigation */
+.topbar {
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 16px 30px;
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.main {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 25px 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.07);
+}
+
+.card h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: var(--primary-color);
+}
+
+.form-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 14px 16px;
+  background-color: var(--input-bg);
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius);
+  font-size: 15px;
+  color: var(--text-color);
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+  border-color: var(--accent-color);
+  outline: none;
+}
+
+.btn {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--primary-color);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #003f6f;
+}
+
+.result-list {
+  padding-top: 10px;
+}
+
+.result-item {
+  background: var(--input-bg);
+  padding: 16px 20px;
+  border-radius: var(--border-radius);
+  margin-bottom: 14px;
+  border-left: 5px solid var(--accent-color);
+  transition: transform 0.2s;
+}
+
+.result-item:hover {
+  transform: translateY(-2px);
+}
+
+.result-item h4 {
+  margin: 0 0 6px;
+  color: var(--text-color);
+  font-size: 17px;
+}
+
+.result-item span {
+  color: var(--muted-text);
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .main {
+    padding: 15px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+}
+
+</style> </head> <body> <div class="topbar">Admin Panel – Exam Results</div> <div class="main"> <div class="card"> <h2>Add Exam Result</h2> <div class="form-group"> <input type="text" id="studentName" placeholder="Student Name" /> </div> <div class="form-group"> <input type="text" id="examTitle" placeholder="Exam Title" /> </div> <div class="form-group"> <input type="number" id="score" placeholder="Score" /> </div> <button class="btn" onclick="addResult()">Add Result</button> </div>
+  <div class="card">
+  <h2>Results List</h2>
+  <div class="result-list" id="resultList">
+    <!-- Results will appear here -->
+  </div>
+</div>
+
+</div> <script> function addResult() { const name = document.getElementById('studentName').value.trim(); const title = document.getElementById('examTitle').value.trim(); const score = document.getElementById('score').value.trim(); if (!name || !title || !score) { alert('Please fill in all fields.'); return; } const resultList = document.getElementById('resultList'); const resultItem = document.createElement('div'); resultItem.className = 'result-item'; resultItem.innerHTML = ` <h4>${name} - ${title}</h4> <span>Score: ${score}</span> `; resultList.prepend(resultItem); 
+//Clear inputs 
+document.getElementById('studentName').value = ''; 
+ document.getElementById('examTitle').value = ''; document.getElementById('score').value = ''; } </script> </body> </html>
