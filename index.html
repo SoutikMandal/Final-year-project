@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examination Mana gement System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>SmartBoard</h1>
+        <p>Manage exams seamlessly with Admin, Teacher, and Student access</p>
+    </header>
+
+    <section id="roles">
+        <!-- Admin Section -->
+        <div class="role" id="admin">   
+            <h2>Admin</h2>
+            <p>Access full system management features.</p>
+           <a href="admin_signin.html"> <button onclick="navigateTo('admin')">Go to Admin</button></a>
+        </div>
+
+        <!-- Teacher Section -->
+        <div class="role" id="teacher">
+            <h2>Teacher</h2>
+            <p>Set questions and check answers.</p>
+          <a href="teacher_signin.html">  <button onclick="navigateTo('teacher')">Go to Teacher</button></a>
+        </div>
+
+
+        <!-- Student Section -->
+        <!-- <div class="role" id="student">
+            <h2>Student</h2> 
+            <p>Access the exam portal.</p>
+            <a href="student_signin.html"><button onclick="navigateTo('student')">Go to Student</button></a>
+        </div> -->
+
+        
+        <div class="role" id="student">
+            <h2>Student</h2>
+            <p> Only access to the Examination portal. </p>
+            <a href="student_signin.html">  <button onclick="navigateTo('student')">Go to Student</button></a>
+        </div>
+
+
+
+
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
